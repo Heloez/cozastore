@@ -1,0 +1,6 @@
+Configurando o git
+git config --global user.name heloez
+git config --global user.email escolaanaehelo@gmail.com
+
+Criar o projeto
+dotnet new mvc -o Cozastore
