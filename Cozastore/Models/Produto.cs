@@ -31,7 +31,7 @@ public class Produto
 
     public string SKU { get; set; }
 
-    [Display(Name = "Preço")]
+    [Display(Name = "Preço de Venda")]
     [Column(TypeName = "décimal(12,2)")]
     [Required(ErrorMessage = "Por favor, informe o preço da venda")]
     public decimal Preco { get; set; }
@@ -62,4 +62,9 @@ public class Produto
     [ForeignKey("CategoriaId")]
 
     public Categoria Categoria { get; set;}
+
+    
+    public ICollection<Estoque> Estoque {get; set;}
+
+    public ICollection<ProdutoFoto> Fotos {get; set;}
     } 
