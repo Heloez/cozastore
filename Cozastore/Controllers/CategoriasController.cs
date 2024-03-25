@@ -1,22 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cozastore.Data;
 using Cozastore.models;
 
-namespace Cozastore.Controllers
-{
-    public class CategoriasController : Controller
+namespace Cozastore.Controllers;
+
+public class CategoriasController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _host;
 
-        public CategoriasController(AppDbContext context)
+        public CategoriasController(AppDbContext context, IWebHostEnvironment host)
         {
             _context = context;
+            _host =host;
         }
 
         // GET: Categorias
@@ -57,12 +55,25 @@ namespace Cozastore.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,foto,filtrar,banner,CategoriaPaiId")] Categoria categoria)
+        public async Task<IActionResult> Create([Bind("Id,Nome,foto,filtrar,banner,CategoriaPaiId")] Categoria categoria, IFormFile Foto)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(categoria);
                 await _context.SaveChangesAsync();
+                if (Foto != null)
+                {
+                    string fileName = categoria.Id + Path.GetExtension(Foto.FileName);
+                    string upload = Path.Combine(_host.WebRootPath, "img\\categorias");
+                    string newFile = Path.Combine(upload, fileName);
+                    using (var stream = new FileStream(newFile, FileMode.Create))
+                    {
+                        Foto.CopyTo(stream);
+                    }
+                    categoria.foto = "\\img\\categorias\\" + fileName;
+                     await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaPaiId"] = new SelectList(_context.Categorias, "Id", "Nome", categoria.CategoriaPaiId);
@@ -161,4 +172,4 @@ namespace Cozastore.Controllers
             return _context.Categorias.Any(e => e.Id == id);
         }
     }
-}
+

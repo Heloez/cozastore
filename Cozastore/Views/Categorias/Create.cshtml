@@ -1,26 +1,19 @@
 @model Cozastore.models.Categoria
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Categoria";
 }
 
-<h1>Create</h1>
-
-<h4>Categoria</h4>
+<h1>Categoria</h1>
+<h4>Cadastro</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="POST" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="foto" class="control-label"></label>
-                <input asp-for="foto" class="form-control" />
-                <span asp-validation-for="foto" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -34,7 +27,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoriaPaiId" class="control-label"></label>
-                <select asp-for="CategoriaPaiId" class ="form-control" asp-items="ViewBag.CategoriaPaiId"></select>
+                <select asp-for="CategoriaPaiId" class ="form-control" asp-items="ViewBag.CategoriaPaiId">
+                <option value="Nenhuma Categoria"></option>
+                </select>
+            </div>
+             <div class="form-group">
+                <label asp-for="foto" class="control-label"></label>
+                <input  type="file" asp-for="foto" class="form-control" accept=".jpg,.jpeg,.png,.gif,.jfif" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -44,6 +43,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar a listagem</a>
 </div>
 
