@@ -1,8 +1,63 @@
 @model IEnumerable<Cozastore.models.Categoria>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categorias";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
+<div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-Warning shadow-primary border-radius-lg pt-4 pb-3 d-flex  align-items-center justify-content-between">
+                <h6 class="text-white text-capitalize ps-3">Categorias</h6>
+                <a class="text-white text-capitalize ps-3 d-flex  align-items-center me-4" asp-action="Create">
+                    <i class="material-icons opacity-10 me-2">Add</i> Adicionar
+                </a>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center justify-content-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nome</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Categoria Pai</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Filtro</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity- ps-2">Banner</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity- ps-2">Ações</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                      <td class="text-dark text-sm ps-4">
+                       @item.Nome
+                      </td>
+                      <td>
+                           <td class="text-dark text-sm ps-4">
+                       @item.CategoriaPai
+                      </td>
+                         <td class="text-dark text-sm ps-4">
+                       @item.Filtrar
+                      </td>
+                         <td class="text-dark text-sm ps-4">
+                       @item.Banner
+                      </td>
+                          <td class="text-dark text-sm ps-4">
+                       @item.Ações
+                      </td>
+
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 <h1>Index</h1>
 
