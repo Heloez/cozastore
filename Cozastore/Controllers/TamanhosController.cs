@@ -10,22 +10,23 @@ using Cozastore.Models;
 
 namespace Cozastore.Controllers
 {
-    public class TamanhoamanhoController : Controller
+
+    public class TamanhosController : Controller
     {
         private readonly AppDbContext _context;
 
-        public TamanhoamanhoController(AppDbContext context)
+        public TamanhosController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Tamanhoamanho
+        // GET: Tamanhos
         public async Task<IActionResult> Index()
         {
             return View(await _context.Tamanhos.ToListAsync());
         }
 
-        // GET: Tamanhoamanho/Details/5
+        // GET: Tamanhos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,13 +44,13 @@ namespace Cozastore.Controllers
             return View(tamanho);
         }
 
-        // GET: Tamanhoamanho/Create
+        // GET: Tamanhos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tamanhoamanho/Create
+        // POST: Tamanhos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +66,7 @@ namespace Cozastore.Controllers
             return View(tamanho);
         }
 
-        // GET: Tamanhoamanho/Edit/5
+        // GET: Tamanhos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,7 +82,7 @@ namespace Cozastore.Controllers
             return View(tamanho);
         }
 
-        // POST: Tamanhoamanho/Edit/5
+        // POST: Tamanhos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +117,7 @@ namespace Cozastore.Controllers
             return View(tamanho);
         }
 
-        // GET: Tamanhoamanho/Delete/5
+        // GET: Tamanhos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +135,7 @@ namespace Cozastore.Controllers
             return View(tamanho);
         }
 
-        // POST: Tamanhoamanho/Delete/5
+        // POST: Tamanhos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

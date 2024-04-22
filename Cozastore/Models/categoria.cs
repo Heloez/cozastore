@@ -1,34 +1,32 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
-namespace Cozastore.models;
+namespace Cozastore.Models;
 
 [Table("Categoria")]
 public class Categoria
 {
-     [Key]
+    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Por favor, informe o nome")] 
-    [StringLength(30, ErrorMessage = "O Nome deve possuir no máximo 30 caracteres")]   
-    public string Nome { get; set; } 
+    [Required(ErrorMessage = "Por favor, informe o Nome")]
+    [StringLength(30, ErrorMessage = "O Nome deve possuir no máximo 30 caracteres")]
+    public string Nome { get; set; }
 
     [StringLength(300)]
+    public string Foto { get; set; }
 
-    public string foto { get; set; }
+    [Display(Name = "Exibir como Filtro?")]
+    public bool Filtrar { get; set; } = false;
 
-    [Display(Name = "Exibir com filtro?")]
+    [Display(Name = "Exibir como Banner?")]
+    public bool Banner { get; set; } = false;
 
-     public bool filtrar { get; set; } = false;
+    [Display(Name = "Categoria Pai")]
+    public int? CategoriaPaiId { get; set; }
+    [ForeignKey("CategoriaPaiId")]
+    public Categoria CategoriaPai { get; set; }
 
-     [Display(Name = "Exibir com Banner?")]
-      public bool banner { get; set; }
-
-        [Display(Name = "Categoria Pai")]
-        public int? CategoriaPaiId { get; set; }
-         [ForeignKey("CategoriaPaiId")]
-        public Categoria CategoriaPai { get; set; }
-
+    public ICollection<Produto> Produtos { get; set; }
 }
