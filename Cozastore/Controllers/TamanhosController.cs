@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cozastore.Data;
 using Cozastore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cozastore.Controllers
 {
-
     public class TamanhosController : Controller
     {
         private readonly AppDbContext _context;

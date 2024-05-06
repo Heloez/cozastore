@@ -1,4 +1,5 @@
 using System.Net.Mail;
+using System.Security.Claims;
 using CozaStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,20 @@ public class AccountController : Controller
         return View(login);
     }
 
+     [HttpPost]
+     [ValidateAntiForgeryToken]
+     public async Task<IActionResult> Logout()
+     {
+            _logger.LogInformation($"Usuario {ClaimTypes.Email} saiu do sistema!");
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+     }  
+
+     public IActionResult AccessDenied()
+     {
+        return View();
+     }
+
     private static bool IsValidEmail(string email)
     {
         try
@@ -77,6 +92,7 @@ public class AccountController : Controller
         }
     }
 
+   
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
      public IActionResult Error()
      {
