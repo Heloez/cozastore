@@ -1,32 +1,36 @@
 using System.Net.Mail;
 using System.Security.Claims;
-using CozaStore.ViewModels;
+using Cozastore.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Cozastore.Controllers;
+
 public class AccountController : Controller
 {
-     private readonly ILogger<AccountController> _logger;
-     private readonly SignInManager<IdentityUser> _signInManager;
-     private readonly UserManager<IdentityUser> _UserManager;
+    private readonly ILogger<AccountController> _logger;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public AccountController(ILogger<AccountController> logger,  SignInManager<IdentityUser>signInManager, UserManager<IdentityUser> UserManager )
+    public AccountController(
+        ILogger<AccountController> logger,
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager
+    )
     {
         _logger = logger;
         _signInManager = signInManager;
-        _UserManager = UserManager;
+        _userManager = userManager;
     }
 
     [HttpGet]
     public IActionResult Login(string returnUrl)
     {
-           LoginVM login = new()
-           {
-               UrlRetorno = returnUrl ?? Url.Content("~/")
-           };
-            return View();
+        LoginVM login = new()
+        {
+            UrlRetorno = returnUrl ?? Url.Content("~/")
+        };
+        return View(login);
     }
 
     [HttpPost]
@@ -38,46 +42,46 @@ public class AccountController : Controller
             string userName = login.Email;
             if (IsValidEmail(userName))
             {
-                var user = await _UserManager.FindByEmailAsync(userName);
-                if (user != null)
+                var user = await _userManager.FindByEmailAsync(userName);
+                if(user != null)
                     userName = user.UserName;
+                
             }
 
             var result = await _signInManager.PasswordSignInAsync(
-                userName, login.Senha, login.Lembrar, lockoutOnFailure: true 
+                userName, login.Senha, login.Lembrar, lockoutOnFailure: true
             );
 
-            if (result.Succeeded)
+            if(result.Succeeded)
             {
-                _logger.LogInformation($"Usuario {login.Email} acessou o sistema!");
+                _logger.LogInformation($"Usuário {login.Email} acessou o sistema!");
                 return LocalRedirect(login.UrlRetorno);
             }
 
-            if (result.IsLockedOut) 
+            if(result.IsLockedOut)
             {
                 _logger.LogWarning($"Usuário {login.Email} está bloqueado!");
                 ModelState.AddModelError(string.Empty, "Conta bloqueada! Aguarde alguns minutos para continuar!");
             }
 
             ModelState.AddModelError(string.Empty, "Usuário e/ou Senha Inválidos!!!");
-
         }
         return View(login);
     }
 
-     [HttpPost]
-     [ValidateAntiForgeryToken]
-     public async Task<IActionResult> Logout()
-     {
-            _logger.LogInformation($"Usuario {ClaimTypes.Email} saiu do sistema!");
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-     }  
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        _logger.LogInformation($"Usuário {ClaimTypes.Email} saiu do sistema!");
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
 
-     public IActionResult AccessDenied()
-     {
+    public IActionResult AccessDenied()
+    {
         return View();
-     }
+    }   
 
     private static bool IsValidEmail(string email)
     {
@@ -92,10 +96,9 @@ public class AccountController : Controller
         }
     }
 
-   
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-     public IActionResult Error()
-     {
-            return View("Error!");
-     }
+    public IActionResult Error()
+    {
+        return View("Error!");
+    }
 }
